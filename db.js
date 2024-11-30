@@ -5,8 +5,12 @@ const mongoose = require('mongoose');
 // 'localhost:27017' is the default address for MongoDB running locally
 
 
-const mongoURL = 'mongodb://localhost:27017/hotels';
-// const mongoURL = 'mongodb+srv://mtahir776655:@100rupyghanta@cluster0.krjvj.mongodb.net/';
+// const mongoURL = 'mongodb://localhost:27017/hotels';
+const mongoURL = 'mongodb+srv://mtahir776655:qwerty12345@cluster0.7fqd2.mongodb.net/';
+
+
+
+
 
 
 

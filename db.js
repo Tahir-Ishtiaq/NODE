@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 
 
 // const mongoURL = 'mongodb://localhost:27017/hotels';
-const mongoURL = 'mongodb+srv://mtahir776655:qwerty12345@cluster0.7fqd2.mongodb.net/';
+const mongoURL = process.env.DB_URL
 
 
 

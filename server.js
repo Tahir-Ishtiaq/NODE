@@ -6,6 +6,7 @@ const app = express();
 
 // Importing the database connection setup
 const db = require('./db');
+require('dotenv').config();
 
 // Importing the Body-Parser library to handle JSON data in HTTP requests
 const bodyParser = require('body-parser');
@@ -38,11 +39,11 @@ app.use('/menuItem', menuItemRoutes)
 
 
 
-
+const PORT = process.env.PORT || 3000;
 
 
 // Starting the server to listen on port 3000
-app.listen(3000, () => {
+app.listen(PORT, () => {
   // Log a message when the server is running
   console.log('3000 is live');
 });

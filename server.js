@@ -13,6 +13,7 @@ const bodyParser = require('body-parser');
 
 // Telling the app to use Body-Parser to parse incoming JSON data
 app.use(bodyParser.json());
+const PORT = process.env.PORT || 3000;
 
 // Importing the Person model, which defines the structure of our database collection
 
@@ -39,7 +40,7 @@ app.use('/menuItem', menuItemRoutes)
 
 
 
-const PORT = process.env.PORT || 3000;
+
 
 
 // Starting the server to listen on port 3000

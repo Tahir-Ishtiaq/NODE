@@ -1,13 +1,17 @@
 // Importing Mongoose to connect and interact with the MongoDB database
 const mongoose = require('mongoose');
+require('dotenv').config();
 
 // Defining the URL for the MongoDB server and the 'hotels' database
 // 'localhost:27017' is the default address for MongoDB running locally
 
 
-// const mongoURL = 'mongodb://localhost:27017/hotels';
-const mongoURL = process.env.DB_URL
+// const mongoURL = process.env.MONGODB_URL_LOCAL;
+// const mongoURL = 'mongodb://localhost:27017/hotels'
+// const mongoURL = process.env.atlas
+// const mongoURL ='mongodb+srv://mtahir776655:qwerty12345@cluster0.7fqd2.mongodb.net/hotels?retryWrites=true&w=majority'
 
+const mongoURL = process.env.DB_URL;
 
 
 

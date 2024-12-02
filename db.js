@@ -6,12 +6,11 @@ require('dotenv').config();
 // 'localhost:27017' is the default address for MongoDB running locally
 
 
-// const mongoURL = process.env.MONGODB_URL_LOCAL;
-// const mongoURL = 'mongodb://localhost:27017/hotels'
-// const mongoURL = process.env.atlas
-// const mongoURL ='mongodb+srv://mtahir776655:qwerty12345@cluster0.7fqd2.mongodb.net/hotels?retryWrites=true&w=majority'
+const mongoURL =process.env.DB_URL;
+// Online mongoDB atlas k cluster ko connect krny k leye phyly netwek access pr jana hai or wahan sy or wahan new IP add krni hai phr cluster mai aakr connect pr click kr k vs code new new link copy krni hai or ussy env file mai add krna hai DB_URL waly variable mai.. ye sab krny k baad he atlas wala databse connect hoga...
 
-const mongoURL = process.env.DB_URL;
+
+// const mongoURL = process.env.DB_URL_LOCAL;
 
 
 

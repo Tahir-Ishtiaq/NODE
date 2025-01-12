@@ -8,6 +8,10 @@ const app = express();
 const db = require('./db');
 require('dotenv').config();
 
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy
+const Person = require('./models/person');
+
 // Importing the Body-Parser library to handle JSON data in HTTP requests
 const bodyParser = require('body-parser');
 
@@ -15,13 +19,42 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 const PORT = process.env.PORT || 3000;
 
+
+// Middleware Function
+const logRequest =(req, res, next)=>{
+  console.log(`[${new Date().toLocaleString()}] Request Made to : ${req.originalUrl}`);
+  next()
+}
+app.use(logRequest);
+
+passport.use(new LocalStrategy(async (USERNAME, password, done)=>{
+  try{
+    console.log('Received credentials: ', USERNAME, password)
+    const user = await Person.findOne({username:USERNAME});
+    if(!user)
+      return done(null, false, {message: 'Incorrect username.'});
+    const isPasswordMatch = user.password === password ? true : false;
+    if(isPasswordMatch){
+      return done(null, user);
+    }else{
+      return done(null, false, {message: 'Incorrect password.'})
+    }
+  }catch(err){
+    return done(err);
+  }
+}))
+
+
 // Importing the Person model, which defines the structure of our database collection
 
 // const Person = require('./models/person');
 // const MenuItem = require('./models/menuItem');
 
 // Defining a GET route at the root URL ('/')
-app.get('/', function (req, res) {
+
+app.use(passport.initialize())
+
+app.get('/', passport.authenticate('local', {session: false}),function (req, res) {
   // When someone visits the root URL, send this response
   res.send('Hello World!! The Server Is Live Now');
 });

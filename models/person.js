@@ -40,6 +40,14 @@ const personSchema = new mongoose.Schema({
         type: Number,
         required: true, // This field must be provided
     },
+    username:{
+        type: String,
+        required: true
+    },
+    password:{
+        type: String,
+        required: true
+    },
 });
 
 // Creating a Mongoose model named 'Person'

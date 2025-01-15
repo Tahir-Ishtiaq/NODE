@@ -1,21 +1,12 @@
-// Importing the Express library to create a web server
 const express = require('express');
-
-// Initializing the Express app
 const app = express();
-
-// Importing the database connection setup
 const db = require('./db');
 require('dotenv').config();
+const passport = require('./auth');
 
-const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy
-const Person = require('./models/person');
 
-// Importing the Body-Parser library to handle JSON data in HTTP requests
+
 const bodyParser = require('body-parser');
-
-// Telling the app to use Body-Parser to parse incoming JSON data
 app.use(bodyParser.json());
 const PORT = process.env.PORT || 3000;
 
@@ -27,42 +18,22 @@ const logRequest =(req, res, next)=>{
 }
 app.use(logRequest);
 
-passport.use(new LocalStrategy(async (USERNAME, password, done)=>{
-  try{
-    console.log('Received credentials: ', USERNAME, password)
-    const user = await Person.findOne({username:USERNAME});
-    if(!user)
-      return done(null, false, {message: 'Incorrect username.'});
-    const isPasswordMatch = user.password === password ? true : false;
-    if(isPasswordMatch){
-      return done(null, user);
-    }else{
-      return done(null, false, {message: 'Incorrect password.'})
-    }
-  }catch(err){
-    return done(err);
-  }
-}))
 
 
-// Importing the Person model, which defines the structure of our database collection
 
-// const Person = require('./models/person');
-// const MenuItem = require('./models/menuItem');
 
-// Defining a GET route at the root URL ('/')
 
-app.use(passport.initialize())
+app.use(passport.initialize());
 
-app.get('/', passport.authenticate('local', {session: false}),function (req, res) {
-  // When someone visits the root URL, send this response
+const localAuthMiddelware = passport.authenticate('local', {session: false});
+app.get('/',localAuthMiddelware,function (req, res) {
   res.send('Hello World!! The Server Is Live Now');
 });
 
 
 
 const personRoutes= require('./routes/personRoutes');
-app.use('/person', personRoutes)
+app.use('/person',personRoutes)
 
 
 const menuItemRoutes= require('./routes/menuItemRoutes');

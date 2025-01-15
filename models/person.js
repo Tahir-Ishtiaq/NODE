@@ -1,6 +1,6 @@
 // Importing Mongoose to interact with the MongoDB database
 const mongoose = require('mongoose');
-
+const bcrypt = require('bcrypt')
 // Defining a schema for the 'Person' collection
 // A schema defines the structure of the documents stored in the database
 const personSchema = new mongoose.Schema({
@@ -49,6 +49,29 @@ const personSchema = new mongoose.Schema({
         required: true
     },
 });
+
+personSchema.pre('save', async function(next){
+    const person =this;
+
+    if(!person.isModified('password')) return next();
+    try{
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(person.password, salt);
+        person.password = hashedPassword;
+        next();
+    }catch(err){
+        return next(err)
+    }
+})
+
+personSchema.methods.comparePassword = async function(candidatePassword){
+    try{
+        const isMatch = await bcrypt.compare(candidatePassword, this.password);
+        return isMatch;
+    }catch(err){
+        throw err;
+    }
+}
 
 // Creating a Mongoose model named 'Person'
 // This connects the schema to the MongoDB 'Person' collection
